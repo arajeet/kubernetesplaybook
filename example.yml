@@ -1,0 +1,19 @@
+---
+- name: New User Being created
+  hosts: kubernetesPod
+  become: true
+  tasks:
+    - name: Load Variable from enrypted file
+      include_vars:
+        file: secret
+
+    - name: Display Secret
+      debug:
+        msg: "{{ become_secret }}"
+
+    - name: Users gets created
+      user:
+        name: "{{ username['test']['uname'] }}"
+        comment: "{{ username['test']['description']}}"
+        password: "{{username['test']['password']}}"
+        state: present
